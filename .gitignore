@@ -1,0 +1,31 @@
+# dependencies
+/node_modules
+
+# production build
+/dist
+
+# logs
+npm-debug.log*
+*.log
+logs/
+pids/
+*.pid
+*.seed
+*.pid.lock
+coverage/
+build/
+yarn-debug.log*
+yarn-error.log*
+tmp/
+
+# environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE/editor folders
+.vscode/
+.DS_Store
+Thumbs.db
+
+
