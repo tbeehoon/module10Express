@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-
 router.get('/', function(req, res) {
   req.session.views = (req.session.views || 0) + 1;
   res.render('index', {
