@@ -1,523 +1,55 @@
-# Node+Express+Pug+SQLite
+# Express+Pug+SQLite
 
 Compiled  by Tan Bee Hoon (contact: tbeehoon@gmail), dated 15 Sep 2025
 
 This readme shows: 
 
-1. Task1 - Handling Events in React
+1. Tasks Intro
 
-2. Task2 - State Management using React Hooks
+2. Environment setup for Express
 
-3. Task3 - Asynchronous Data Fetching with AJAX
+3. Pug Setup
 
-4. Reference - Github Repo 
+4. Integration using SQLite and CRUD operation
 
-5. How to set up the environment for NVM, React and Vite.
+5. Serve Static Assets
 
    
 
-## 1. Task1-Handling Events in React
 
-> [!NOTE]
->
-> Requirements:
->
-> a) Create a simple component with a button labeled “Toggle Message.” 
->
-> b) When the button is clicked, toggle a message on the screen that says “Hello, welcome to React!” This message should disappear when the button is clicked again.
+## 1. Tasks Intro 
 
+The assignment tasks to be included in this projects include:
 
+**1. Express.js with Pug Template Engine ** 
 
-### 1.1. Explanation
+a) Set up an Express.js web application with Pug template engine. 
 
-The file App.jsx is modified to complete the task:
+b) Implement dynamic content rendering using Pug 
 
-a. Created a `<Button onClick={handleToggle}>Toggle Message</Button>` inside component App
+c) Database integration using SQLite in Express.js 
 
-b. The button is labelled “Toggle Message”
 
-c. Using a state variable `showMessage` (`useState(false)`) to keep track of whether the message should be visible
 
-d. The `handleToggle` function flips the value of `showMessage` each time the button is clicked.
+**3. Static Assets and Session Management ** 
 
-e. Conditionally render the message, which ensures the message appears when `showMessage` is true and disappears when it’s false.
+a) Serve static assets in Express.js
 
-```
-{showMessage && (
-  <p>Hello, welcome to React!</p>
-)}
-```
+b) Manage session state using Express.js sessions
 
 
 
-### 1.2 Code for App.jsx
+**4. Database interaction and CRUD operations ** 
 
-The code for the full App.jsx is as follows:
+b) Set up CRUD operations in Express.js using SQLite. 
 
-![](./public/task1.jpg)
 
-```
-import { useState } from 'react'
-import Button from 'react-bootstrap/Button'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import beelogo from '/bees.png'
-import './App.css'
 
-function App() {
-  const [showMessage, setShowMessage] = useState(false)
 
-  const handleToggle = () => {
-    setShowMessage((prev) => !prev)
-  }
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-        <a href="https://tbeehoon.wordpress.com/" target="_blank">
-          <img src={beelogo} className="logo bee" alt="Bee logo" />
-        </a>
-      </div>
-      <h1>Vite + React + Bee</h1>
-      
-      {/* Toggle Message Button and Message */}
-      <div className="card">
-        <Button onClick={handleToggle}>Toggle Message</Button>
-        {showMessage && (
-          <p>Hello, welcome to React!</p>
-        )}
-      </div>
-      <p className="read-the-docs">
-        "Do not React, learn to Respond."
-      </p>
-    </>
-  )
-}
+## 2. Environment Setup
 
-export default App
-```
-
-
-
-### 1.3 Output 
-
-Run the code:
-
-```
-npm run dev
-```
-
-The following is the resulting browser screen capture:
-
-![](./public/task1-screen.jpg)
-
-
-
----
-
-## 2. Task2-State Management using React Hooks
-
-> [!NOTE]
->
-> Requirements: 
->
-> a) Build a component called ColorChanger. This component should have a text input where users can enter a colour name (e.g., “blue”). 
->
-> b) The component should display a box that changes colour based on the input. 
->
-> c) As the user types into the input, the box should automatically update to the new colour if it’s a valid colour name. 
-
-Two files are modified to complete the task:
-
-### 2.1 Explanation 
-
-#### **2.1.1 `App.jsx` – The Main Application Component**
-
-App.jsx is setup to "frame" the app, and import in ColorChange as a child component, 
-
-a. Import custom **ColorChanger**
-
-```
-import ColorChanger from './ColorChanger'
-```
-
-b. Render ColorChanger Component inside the styled card.
-
-```
-{/* ColorChanger Component */}
-<div className="card" style={{ marginTop: 0 }}>
-	<ColorChanger />
-</div>
-```
-
-
-
-#### **2.1.2 ColorChanger.jsx** - Interactive Color Nox 
-
-This the component for the interactive color box. 
-
-a. Start with State Management. The **color** variable stores the user input, initiated as empty (' ').
-
-```
-const [color, setColor] = useState('')
-```
-
-
-
-b. The color validation is done with variable **isValidColor**.  It creates a temporary DOM style object and tries to set its `color`. If the browser recognizes the input (like `"red"`, `"#00ff00"`, or `"rgb(0,0,255)"`), it will be set. If it’s invalid, it will remain empty.
-
-```
-const isValidColor = (col) => {
-  const s = new Option().style
-  s.color = col
-  return s.color !== ''
-}
-```
-
-
-
-c. The color box is styled with the the following: 
-
-* The main box is **320×100px**.
-
-* Background is user’s chosen color if valid. A dull grey (`#eee`) if not.
-
-* Centered text with background transitions.
-
-  ```
-  const boxStyle = {
-    width: '320px',
-    height: '100px',
-    backgroundColor: isValidColor(color) ? color : '#eee',
-    border: '1px solid #ccc',
-    marginTop: '10px',
-    transition: 'background 0.3s',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#222',
-  }
-  ```
-
-
-
-d. Rendering Logic is defined in two steps:
-
-Step1 - User types a color name (like `"red"`) or a CSS color value. Updates the `color` state on change.
-
-```
-<input
-    id="color-input"
-    type="text"
-    value={color}
-    onChange={e => setColor(e.target.value)}
-    placeholder="e.g. blue, red, green"
-    style={{ marginLeft: '10px' }}
-/>
-```
-
-Step2 - If the color is valid and not empty, displays the color’s name inside the box. Otherwise shows the default message.
-
-```
-<div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-    <div style={boxStyle}>
-      {isValidColor(color) && color ? color : (
-        <> 
-            I am a boring box with no color. <br/> 
-            Please enter a color to make me colorful.
-        </>
-        )}
-    </div>
-</div>
-```
-
-
-
-### 2.2 Code for ColorChanger.jsx
-
-The full code for ColorChanger.jsx is as follows:
-
-![](./public/task2.jpg)
-
-```
-import { useState } from 'react'
-
-function ColorChanger() {
-  const [color, setColor] = useState('')
-
-  // Check if the color is valid by trying to set it on a dummy element
-  const isValidColor = (col) => {
-    const s = new Option().style
-    s.color = col
-    return s.color !== ''
-  }
-
-  const boxStyle = {
-    width: '320px',
-    height: '100px',
-    backgroundColor: isValidColor(color) ? color : '#eee',
-    border: '1px solid #ccc',
-    marginTop: '10px',
-    transition: 'background 0.3s',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#222',
-  }
-
-  return (
-    <div className="card">
-      <label htmlFor="color-input">Enter a color name:</label>
-      <input
-        id="color-input"
-        type="text"
-        value={color}
-        onChange={e => setColor(e.target.value)}
-        placeholder="e.g. blue, red, green"
-        style={{ marginLeft: '10px' }}
-      />
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-        <div style={boxStyle}>
-          {isValidColor(color) && color ? color : (
-            <> 
-                I am a boring box with no color. <br/> 
-                Please enter a color to make me colorful.
-            </>
-            )}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export default ColorChanger
-```
-
-
-
-### 2.3 Output
-
-Run the code:
-
-```
-npm run dev
-```
-
-The resulting browser screen is shown below:
-
-![](./public/task2-screen.jpg)
-
----
-
-## 3. Task3-Asynchronous Data Fetching with AJAX 
-
-> [!NOTE]
->
-> Requirements: 
->
-> a) Create a UserProfile component that fetches user data from an API (for example, https://jsonplaceholder.typicode.com/users/1) and displays the user’s name, email, and address on the page. 
->
-> b) Display a loading message while data is being fetched. 
-
-
-
-### 3.1 Explanation
-
-Two files are modified to complete the task:
-
-#### 3.1.1 `App.jsx` – The Main Application Component
-
-**App.jsx** is setup to "frame" the app, and import in **UserProfile** as a child component, 
-
-a. Import custom **UserProfile **
-
-```
-import UserProfile from './UserProfile'
-```
-
-b. Render **UserProfile** Component inside the styled card.
-
-```
-{/* UserProfile Component */}
-<div className="card" style={{ marginTop: 0 }}>
-	<UserProfile />
-</div>
-```
-
-
-
-#### 3.1.2 `UserProfile.jsx` – Fetching and Displaying User Data
-
-This component demonstrates how to fetch asynchronous data in React using the `useEffect` and `useState` hooks. It loads a fake user profile from the public API **`https://jsonplaceholder.typicode.com/users/1`** and displays the user’s information.
-
-##### a.  **State Management**
-
-The component manages three pieces of state:
-
-- **`user`** : holds the fetched user data (initially `null`).
-- **`loading`** : a boolean that tracks whether the fetch is in progress (initially `true`).
-- **`error`** : stores any error message if the fetch fails (initially `null`).
-
-```
- const [user, setUser] = useState(null)
- const [loading, setLoading] = useState(true)
- const [error, setError] = useState(null)
-```
-
-##### b. **Data Fetching with `useEffect`**
-
-The `useEffect` hook triggers when the component mounts. The process:
-
-* Set `loading` to `true` before fetching.
-* Use `fetch` to call the API.
-* If the response is OK, convert it to JSON and update `user`.
-* If the response is invalid, throw an error.
-* Catch any errors, set `error`, and stop loading.
-
-```
-useEffect(() => {
-	setLoading(true)
-	fetch('https://jsonplaceholder.typicode.com/users/1')
-      .then((res) => {
-        if (!res.ok) throw new Error('Network response was not ok')
-        return res.json()
-      })
-      .then((data) => {
-        setUser(data)
-        setLoading(false)
-      })
-      .catch((err) => {
-        setError(err.message)
-        setLoading(false)
-      })
-}, [])
-```
-
-![](./public/task3-1.jpg)
-
-
-
-##### c. **Conditional Rendering**
-
-The component displays different UI states based on the fetch status:
-
-- If `loading` then Show *“Loading user profile…”*
-- If `error` then Show the error message
-- if `!user` then Return null, meaning don't render anything for this component
-- If `user` is available then Render the profile details (refer to next section)
-
-```
-if (loading) return <div className="card">Loading user profile...</div>
-if (error) return <div className="card">Error: {error}</div>
-if (!user) return null
-```
-
-
-
-##### **d. Display User Data**
-
-Once the API returns data, the component displays the user’s **name**, **email**, and **full address** inside a styled card.
-
-```
-return (
-    <div className="card">
-      <h3>User Profile</h3>
-      <div><strong>Name:</strong> {user.name}</div>
-      <div><strong>Email:</strong> {user.email}</div>
-      <div>
-        <strong>Address:</strong> {user.address.street}, {user.address.suite}, {user.address.city}, {user.address.zipcode}
-      </div>
-    </div>
-  )
-```
-
-![](./public/task3-2)
-
-### 3.2 Code for UserProfile.jsx
-
-The full code for **UserProfile.jsx** is as follows:
-
-```
-import { useEffect, useState } from 'react'
-
-function UserProfile() {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-
-  useEffect(() => {
-    setLoading(true)
-    fetch('https://jsonplaceholder.typicode.com/users/1')
-      .then((res) => {
-        if (!res.ok) throw new Error('Network response was not ok')
-        return res.json()
-      })
-      .then((data) => {
-        setUser(data)
-        setLoading(false)
-      })
-      .catch((err) => {
-        setError(err.message)
-        setLoading(false)
-      })
-  }, [])
-
-  if (loading) return <div className="card">Loading user profile...</div>
-  if (error) return <div className="card">Error: {error}</div>
-  if (!user) return null
-
-  return (
-    <div className="card">
-      <h3>User Profile</h3>
-      <div><strong>Name:</strong> {user.name}</div>
-      <div><strong>Email:</strong> {user.email}</div>
-      <div>
-        <strong>Address:</strong> {user.address.street}, {user.address.suite}, {user.address.city}, {user.address.zipcode}
-      </div>
-    </div>
-  )
-}
-
-export default UserProfile
-```
-
-![](./public/task3-3.jpg)
-
-### 3.3 Output
-
-Run the code:
-
-```
-npm run dev
-```
-
-The resulting browser screen is shown below:
-
-![](./public/task3-screen.jpg)
-
-
-
-## 4. Reference - Git Hub Repo 
-
-Final git push for module8part2 app is pushed to the following github repo: 
-
-https://github.com/tbeehoon/module8part2/tree/main
-
-
-
----
-
-
-
-## 5. Setup the environment
-
-### 5.1 Install NVM (Node Version Manager) (*Optional*)
+### 2.1 Install NVM (Node Version Manager) (*Optional*)
 
 If NVM is not installed yet, download the latest `nvm-setup.exe` from the releases page: https://github.com/coreybutler/nvm-windows/releases
 
@@ -527,7 +59,7 @@ If NVM is not installed yet, download the latest `nvm-setup.exe` from the releas
 
 
 
-### 5.2 Install the latest version (*Optional*) 
+### 2.2 Install the latest version (*Optional*) 
 
 If the latest version is not available in on the machine, install the version required (LTS recommended):
 
@@ -551,7 +83,7 @@ Note: This installation using node version v22.19.0
 
 
 
-### 5.3 Create the project
+### 2.3 Create the project
 
 Generate the project:
 
@@ -587,7 +119,7 @@ This is the directory structure and dependency installed:
 
 
 
-### 5.4 Setup for auto-reload
+### 2.4 Setup for auto-reload
 
 For convenience, add auto-reload to the setup.
 
@@ -609,7 +141,7 @@ In `package.json`, add a dev script:
 
 
 
-### 5.4 Provide a default port number (*Optional*)
+### 2.5 Provide a default port number (*Optional*)
 
 This line of code should be included as part of the setup. Update the file "`bin/www`"
 
@@ -636,7 +168,7 @@ app.set('port', port);
 
   
 
-### 5.5 Add Bootstrap to the project (*Optional*)
+### 2.6 Add Bootstrap to the project (*Optional*)
 
 Install Bootstrap and its dependencies:
 
@@ -652,7 +184,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
-### 5.6 Initialize Git
+### 2.7 Initialize Git
 
 Version control the project using Git.
 
@@ -671,7 +203,7 @@ To add to Github.
 
 ```
 # Add remote 
-git remote add origin https://github.com/tbeehoon/module8part2.git
+git remote add origin https://github.com/tbeehoon/module10Express.git
 
 # Push changes
 git branch -M main
@@ -687,9 +219,23 @@ git config --global user.email "you@example.com"
 git config --global user.name "Your Name"
 ```
 
+> [!TIP]
+>
+> In case you have accidentally create a remote origin and need to replace it:
+>
+> ```
+> git remote set-url origin https://github.com/tbeehoon/module10Express.git
+> ```
+>
+> To check:
+>
+> ```
+> git remote -v
+> ```
 
 
-### 5.7 Setup .gitignore
+
+### 2.8 Setup .gitignore
 
 Add a `.gitignore` file in the root of the project to exclude files and folders not required in version control. Some examples of items to include:
 
@@ -717,9 +263,11 @@ Thumbs.db
 
 
 
-## 6. Setup Dynamic content rendering with Pug
+## 3. Pug Setup 
 
-### 6.1 Edit a route (send dynamic data)
+The following setup Dynamic content rendering with Pug
+
+### 3.1 Edit a route (send dynamic data)
 
 Edit the routing in routes/index.js.
 
@@ -741,9 +289,9 @@ module.exports = router;
 
 
 
-### 6.2 Edit Layout & template
+### 3.2 Edit Layout & template
 
-Edit the layout in views/layout.pug.
+Edit the layout in **views/layout.pug**.
 
 ```
 doctype html
@@ -767,7 +315,7 @@ html
 
 ```
 
-Edit the main html index page.
+Edit the main html index page, **views/index.pug**.
 
 ```
 extends layout
@@ -794,7 +342,7 @@ This is the output:
 
 ![image-20250928225441656](./public/images/setup2.png)
 
-### 6.3 to Update with bootstrap styling
+### 3.4 to Update with bootstrap styling
 
 Copy bootstrap files to public folder:
 
@@ -873,15 +421,17 @@ This is the new bootstrap look:
 
 ![image-20250928232818335](./public/images/setup3.png)
 
-### 7. Integration using SQLite and CRUD operations (For Task 4b)
+## 4. Integration using SQLite and CRUD operations (For Task 4b)
 
-#### 7.1 Install the driver for **better-sqlite3**:
+### 4.1 Install the driver for **better-sqlite3**:
 
 ```
 npm i better-sqlite3
 ```
 
-#### 7.2 Create a DB module
+
+
+### 4.2 Create a DB module
 
 To set up a SQLite-backed todo store with functions for listing, adding, and deleting todos, and have a router template for CRUD operations on those todos.
 
@@ -917,7 +467,9 @@ module.exports = {
 
 ```
 
-#### 7.2 Add a router for CRUD
+
+
+### 4.3 Add a router for CRUD
 
 Create a **routes/todo.js**
 
@@ -967,7 +519,7 @@ module.exports = router;
 
 
 
-#### 7.3 Wire Router and Body Parsers 
+### 4.4 Wire Router and Body Parsers 
 
 Mount the router in app.js:
 
@@ -978,7 +530,9 @@ app.use('/todos', todosRouter);
 
 That code imports the `todos` router and tells Express: *“For every request that starts with `/todos`, hand it off to the router defined in `routes/todos.js`.”*
 
-#### 7.4 Create pug views for the todo list with bootstrap styling
+
+
+### 4.5 Create pug views for the todo list with bootstrap styling
 
 Make a folder `views/todos/` and add views/todos/index.pug.
 
@@ -1025,7 +579,7 @@ The code does the following:
 
 
 
-#### 7.5 Output
+### 4.6 Output
 
 This is how the **todos** page looks like:
 
@@ -1033,7 +587,7 @@ This is how the **todos** page looks like:
 
 ![image-20250929002124877](.\public\images\setup5.png)
 
-#### 7.6 Summary
+### 4.7 Summary
 
 The setup here supports all CRUD operations for todos using SQLite:
 
@@ -1046,6 +600,300 @@ The setup here supports all CRUD operations for todos using SQLite:
 - Delete: Remove todos.
 
 
+
+## 5. Serve Static Assets
+
+### 5.1 Add the path
+
+To serve static assets, first add the path /public in app.js:
+
+```
+const path = require('path');
+const express = require('express');
+const app = express();
+
+// ... other middleware above
+
+// Serve everything in /public at the root path (e.g., /stylesheets/style.css)
+app.use(express.static(path.join(__dirname, 'public'), {
+  maxAge: '1d',          // cache static files for 1 day (tune as needed)
+  etag: true,
+  lastModified: true
+}));
+
+module.exports = app;
+```
+
+
+
+### 5.2 Add Public assets
+
+Add in the assets items for image, javascript and css file:
+
+```
+public/
+  images/
+    bee-icon.png
+  javascripts/
+    main.js
+  stylesheets/
+    style.css      <-- generator already links this
+```
+
+
+
+### 5.3 edit the views 
+
+Use in Pug templates views/layout.pug:
+
+```
+head
+  link(rel="stylesheet", href="/stylesheets/style.css")
+  script(src="/javascripts/main.js")
+  link(rel="icon", href="/favicon.png", type="image/png")
+```
+
+
+
+### 5.4 Edit static JavaScript files
+
+Client-side form validation is added. So if a user tries to submit an empty or whitespace-only todo, the form will not submit and an alert will appear.
+
+Add a Client-side form validation feature in the javascripts/main.js:
+
+```
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.querySelector('form[action="/todos"]');
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      const input = form.querySelector('input[name="text"]');
+      if (input && !input.value.trim()) {
+        e.preventDefault();
+        alert('Please enter a todo!');
+      }
+    });
+  }
+});
+
+```
+
+> [!TIP]
+>
+> **What are static assets?**
+>
+> Static assets are files that are served to the client exactly as they are stored, without any server-side processing. So this Client-side form validation feature can be considered a client-side asset.
+
+
+
+### 5.5 Output 
+
+The favicon is added.
+
+The form checking feature is added. 
+
+![image-20250929121437198](.\public\images\setup6.png)
+
+
+
+## 6. Manage Session State
+
+Add sessions and demo with (1) a **visit counter** and (2) a tiny **“set your name”** form that stores to session. Use **express-session** + **connect-sqlite3** so session data survives server restarts (stored in a SQLite file), instead of the default in-memory store.
+
+### 6.1 Install the required package 
+
+```
+npm i express-session connect-sqlite3
+npm install dotenv
+```
+
+> [!TIP]
+>
+> `express-session` adds session middleware (creates/reads the session cookie and `req.session`).
+>
+> `connect-sqlite3` is a session **store** that saves session rows in a SQLite database file so they persist.
+>
+> `connect-sqlite3` is a **ready-made store adapter** for `express-session`.
+
+
+
+> [!TIP]
+>
+> The **existing SQLite code** (with `better-sqlite3` or `sqlite3`) is for **application data** (e.g., todos, users, posts), so not for this purpose.
+>
+> **Session storage** is a separate concern: Express-session needs a place to store session IDs, expiration times, and data blobs.
+
+
+
+### 6.2 Create a place for the DB file 
+
+```
+mkdir -p var
+```
+
+**Purpose:**
+
+- Keeps session DB files (e.g., `var/sessions.sqlite`) out of your source folders.
+
+**Note:** 
+
+* Add to .gitignore to prevents committing session files to Git.
+
+```
+var/
+```
+
+
+
+### 6.3 Configure the session middleware
+
+Open `app.js` and add this:
+
+```
+const session = require('express-session');
+const SQLiteStore = require('connect-sqlite3')(session);
+
+// If you might deploy behind a proxy (Render/Heroku/Nginx), keep this:
+app.set('trust proxy', 1);
+
+app.use(session({
+  store: new SQLiteStore({
+    dir: './var',            // where to put the DB file
+    db: 'sessions.sqlite',   // file name; auto-created if missing
+    // ttl: 86400000,        // (optional) custom expiry in ms
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: false,               // don’t rewrite unchanged sessions
+  saveUninitialized: false,    // only create session when used
+  cookie: {
+    httpOnly: true,            // JS can’t read the cookie
+    sameSite: 'lax',           // good default vs CSRF
+    secure: false,             // set true when you serve over HTTPS
+    maxAge: 1000 * 60 * 60 * 2 // 2 hours
+  }
+}));
+```
+
+**Purpose:**
+
+- **`store`**: points sessions to SQLite instead of memory.
+
+- **`secret`**: signs cookies; keep it strong and in an env var in real apps.
+
+- **`resave`/`saveUninitialized`**: recommended flags to reduce unnecessary writes.
+
+- **`cookie`**: controls security and lifetime.
+
+- **`trust proxy`**: required when setting `secure:true` behind a proxy so cookies aren’t dropped.
+
+  
+
+### 6.4 Add a demo that uses the session
+
+Update `routes/index.js` to store a visit counter and a name.
+
+```
+var express = require('express');
+var router = express.Router();
+
+router.get('/', function(req, res) {
+  req.session.views = (req.session.views || 0) + 1;
+  res.render('index', {
+    title: 'Module10 Task1 - Bee Demo Express',
+    sessionViews: req.session.views,
+    username: req.session.username || null
+  });
+});
+
+router.post('/set-name', (req, res) => {
+  const name = (req.body.name || '').trim();
+  if (name) req.session.username = name;
+  res.redirect('/');
+});
+
+router.post('/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.clearCookie('sid'); // or your configured cookie name
+    res.redirect('/');
+  });
+});
+
+module.exports = router;
+```
+
+- Proves persistence: refresh count and name survive restarts because they’re in the SQLite store.
+
+### 6.5 Display session data in Pug view
+
+Edit `views/index.pug`:
+
+```
+extends layout
+
+block content
+  if username
+    p Hello, #{username}!
+    p You have visited this page #{sessionViews} times during this session.
+    form(action="/logout" method="post")
+      button(type="submit") Clear session
+  else
+    p You have visited this page #{sessionViews} times during this session.
+    form(action="/set-name" method="post" style="margin-top:1rem")
+      label(for="name") Set your name:
+      input#name(type="text" name="name" required)
+      button(type="submit") Save
+```
+
+**Purpose:**
+
+- Shows how to **read** values stored on `req.session` and interact with them via forms.
+
+
+
+### 6.6 (Optional) Name the cookie explicitly
+
+ Add a custom cookie name (defaults to `connect.sid`), add `name` in the session options: (in app.js)
+
+```
+app.use(session({
+  name: 'sid',
+  // ...rest as above
+}));
+```
+
+`name: 'sid'` controls the **cookie name** Express sets in the browser.
+
+Putting it in the session config ensures Express-session writes cookies as `sid=...` instead of the default `connect.sid`.
+
+This makes it easier to clear the cookie later:
+
+```
+res.clearCookie('sid');
+```
+
+
+
+### 6.7 Check the output
+
+Run the app:
+
+```
+npm run dev
+```
+
+This is the output: 
+
+![image-20250929141149951](.\public\images\setup7.png)
+
+UAT Testing:
+
+- Visit `http://localhost:3000/`, refresh, the **counter increments**.
+- Enter a name , greeting appears.
+- Stop the server, start it again, your **counter and name still exist**.
+- Click **Clear session**, cookie cleared and server-side session removed.
+
+**Purpose:**
+
+- Confirms your sessions are **stored in SQLite** and **survive restarts**.
 
 
 

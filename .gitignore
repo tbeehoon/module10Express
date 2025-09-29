@@ -28,4 +28,7 @@ tmp/
 .DS_Store
 Thumbs.db
 
+# db folder
+var/
+
 

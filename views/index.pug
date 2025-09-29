@@ -1,12 +1,14 @@
 extends layout
 
 block content
-  if showHelp
-    p Welcome! This page renders a dynamic list below.
-
-  if items && items.length
-    ul
-      each item in items
-        li #{item.text}
+  if username
+    p Hello, #{username}!
+    p You have visited this page #{sessionViews} times during this session.
+    form(action="/logout" method="post")
+      button(type="submit") Clear session
   else
-    p No items found.
+    p You have visited this page #{sessionViews} times during this session.
+    form(action="/set-name" method="post" style="margin-top:1rem")
+      label(for="name") Set your name:
+      input#name(type="text" name="name" required)
+      button(type="submit") Save
