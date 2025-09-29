@@ -1,6 +1,6 @@
 # Express+Pug+SQLite
 
-Compiled  by Tan Bee Hoon (contact: tbeehoon@gmail), dated 15 Sep 2025
+Compiled  by Tan Bee Hoon (contact: tbeehoon@gmail), dated 29 Sep 2025
 
 This readme shows: 
 
@@ -13,6 +13,8 @@ This readme shows:
 4. Integration using SQLite and CRUD operation
 
 5. Serve Static Assets
+
+6. Manage Session State
 
    
 
@@ -115,7 +117,7 @@ npm install
 
 This is the directory structure and dependency installed: 
 
-![image-20250928185533090](C:\Users\user\projects\Emeritus-FullStackAI\Module10\Mod10-Task1\task1app\public\images\setup1.png)
+![image-20250928185533090](./public/images/setup1.png)
 
 
 
@@ -583,9 +585,9 @@ The code does the following:
 
 This is how the **todos** page looks like:
 
-![image-20250929002003183](.\public\images\setup4.png)
+![image-20250929002003183](./public/images/setup4.png)
 
-![image-20250929002124877](.\public\images\setup5.png)
+![image-20250929002124877](./public/images/setup5.png)
 
 ### 4.7 Summary
 
@@ -691,7 +693,7 @@ The favicon is added.
 
 The form checking feature is added. 
 
-![image-20250929121437198](.\public\images\setup6.png)
+![image-20250929121437198](./public/images/setup6.png)
 
 
 
