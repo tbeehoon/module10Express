@@ -1,5 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  if showHelp
+    p Welcome! This page renders a dynamic list below.
+
+  if items && items.length
+    ul
+      each item in items
+        li #{item.text}
+  else
+    p No items found.

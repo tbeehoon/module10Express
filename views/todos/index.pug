@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+  .row.justify-content-center
+    .col-md-8
+      h2.mb-4 Todo List
+      if todo
+        form(action=`/todos/${todo.id}/edit` method="POST" class="input-group mb-4")
+          input.form-control(type="text" name="text" value=todo.text required)
+          button.btn.btn-success(type="submit") Update
+          a.btn.btn-secondary.ms-2(href="/todos") Cancel
+      else
+        form(action="/todos" method="post" class="input-group mb-4")
+          input.form-control(type="text" name="text" placeholder="What needs doing?" required)
+          button.btn.btn-primary(type="submit") Add
+      if todos.length
+        ul.list-group
+          each t in todos
+            li.list-group-item.d-flex.justify-content-between.align-items-center
+              span= t.text
+              .btn-group
+                a.btn.btn-sm.btn-warning(href=`/todos/${t.id}/edit`) Edit
+                form(action=`/todos/${t.id}/delete` method="post" class="d-inline m-0 p-0")
+                  button.btn.btn-sm.btn-danger(type="submit" onclick="return confirm('Delete this todo?')") Delete
+      else
+        div.alert.alert-info No todos yet. Add one above!
