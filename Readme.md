@@ -1,6 +1,6 @@
 # Express+Pug+SQLite
 
-Compiled  by Tan Bee Hoon (contact: tbeehoon@gmail), dated 29 Sep 2025
+Compiled  by Tan Bee Hoon (contact: tbeehoon@gmail.com), dated 29 Sep 2025
 
 This readme shows: 
 
@@ -887,7 +887,7 @@ This is the output:
 
 ![image-20250929141149951](./public/images/setup7.png)
 
-UAT Testing:
+Testing:
 
 - Visit `http://localhost:3000/`, refresh, the **counter increments**.
 - Enter a name , greeting appears.
