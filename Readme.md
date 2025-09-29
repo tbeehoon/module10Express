@@ -882,7 +882,7 @@ npm run dev
 
 This is the output: 
 
-![image-20250929141149951](.\public\images\setup7.png)
+![image-20250929141149951](./public/images/setup7.png)
 
 UAT Testing:
 
