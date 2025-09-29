@@ -8,12 +8,13 @@ router.get('/', (req, res) => {
   res.render('todos/index', { title: 'Todos', todos });
 });
 
-// Show edit form
+// Show edit form (render in the same index.pug)
 router.get('/:id/edit', (req, res) => {
   const id = Number(req.params.id);
-  const todo = store.allTodos().find(t => t.id === id);
+  const todos = store.allTodos();
+  const todo = todos.find(t => t.id === id);
   if (!todo) return res.redirect('/todos');
-  res.render('todos/edit', { title: 'Edit Todo', todo });
+  res.render('todos/index', { title: 'Edit Todo', todos, todo });
 });
 
 // Update
